@@ -1,0 +1,22 @@
+# Local development and QA artifacts (not needed for the game)
+/work/
+/outputs/
+/backups/
+/tests/
+/tmp/
+/temp/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.orig
+*~
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vscode/
+.idea/

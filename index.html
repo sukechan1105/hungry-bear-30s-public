@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Hungry Bear 30s（ハングリーベア 30s）</title>
+
+    <meta name="description" content="鮭をキャッチしてクマを巨大化！ コンボで育てて、ラスト5秒のキノコの嵐をかいくぐれ。PC・スマホで遊べる30秒チャレンジ！">
+    <meta name="theme-color" content="#62412d">
+
+    <!-- 公開予定URL（未公開）。公開先を変更する場合はcanonical・og:url・PUBLIC_GAME_URLを揃えてください。 -->
+    <link rel="canonical" href="https://sukechan1105.github.io/hungry-bear-30s-public/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:site_name" content="Hungry Bear 30s">
+    <meta property="og:title" content="Hungry Bear 30s（ハングリーベア 30s）">
+    <meta property="og:description" content="30秒で、どこまで大きくなれる？ 鮭を顔でキャッチしてクマを育てる、PC・スマホ対応のドット絵ゲーム。コンボで成長し、ラスト5秒のキノコの嵐に挑戦！">
+    <meta property="og:url" content="https://sukechan1105.github.io/hungry-bear-30s-public/">
+
+    <!-- OGP画像は公開用フォルダに同梱。URLはGitHub Pages公開予定先。 -->
+    <meta property="og:image" content="https://sukechan1105.github.io/hungry-bear-30s-public/ogp.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Hungry Bear 30s — 丸太橋の上のクマと鮭。30秒で、どこまで大きくなれる？">
+    <meta name="twitter:image" content="https://sukechan1105.github.io/hungry-bear-30s-public/ogp.png">
+    <meta name="twitter:image:alt" content="Hungry Bear 30s — 丸太橋の上のクマと鮭。30秒で、どこまで大きくなれる？">
+    <!-- Xでもメタタグ名は twitter: のまま使用します。 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hungry Bear 30s（ハングリーベア 30s）">
+    <meta name="twitter:description" content="30秒で、どこまで大きくなれる？ 鮭を顔でキャッチしてクマを育てる、PC・スマホ対応のドット絵ゲーム。コンボで成長し、ラスト5秒のキノコの嵐に挑戦！">
+
+    <style>
+
+:root{--ink:#493426;--wood:#805b3d;--cream:#fff5d9;--leaf:#55784c;--gold:#eeb95d;--river:#8cc8cf}
+*{box-sizing:border-box} [hidden]{display:none!important}
+body{margin:0;padding:28px 16px 32px;color:var(--ink);background-color:#f4f1e5;background-image:linear-gradient(#c8c9ad18 1px,transparent 1px),linear-gradient(90deg,#c8c9ad18 1px,transparent 1px);background-size:24px 24px;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center}
+button,a,summary{-webkit-tap-highlight-color:transparent} button,a{touch-action:manipulation} button{font:inherit;cursor:pointer} button:disabled{cursor:default}
+.page-header{max-width:800px;margin:0 auto 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}.brand{font-family:ui-monospace,monospace;font-size:16px;font-weight:900;letter-spacing:-.5px}.brand span{color:#a2523c}.edition{font:10px ui-monospace,monospace;letter-spacing:2px;color:#758068}
+.layout{max-width:800px;margin:auto;display:grid;grid-template-columns:minmax(0,460px) minmax(0,280px);gap:28px;align-items:start}
+.game-shell{min-width:0;border:5px solid #795339;background:#f9edcb;box-shadow:0 3px 0 #4f3828,0 9px 0 #d7d1b7,0 18px 32px #56483118;position:relative}
+.hud{display:grid;grid-template-columns:.9fr 1.25fr 1fr;gap:7px;padding:10px 9px 9px;background:#d7dab6;border-bottom:3px solid #80603e}
+.wood{border:2px solid #8c6544;background:repeating-linear-gradient(0deg,#f6e2b7 0px,#f6e2b7 7px,#efd6a6 8px,#f6e2b7 9px);box-shadow:inset 0 0 0 2px #fff3d5,0 2px 0 #6a4a31}
+.hud-card{position:relative;padding:7px 2px 5px;min-width:0;border-radius:3px}.hud-card:before,.hud-card:after{content:"";position:absolute;width:3px;height:3px;background:#ac8257;top:5px}.hud-card:before{left:5px}.hud-card:after{right:5px}
+.hud-label{display:block;font:800 10px ui-monospace,monospace;letter-spacing:1px;color:#795b3d}.hud-number{display:block;font:900 clamp(23px,5vw,32px)/1.2 ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}.unit{font-size:14px}.time-card .hud-number{color:#425b3d}
+.combo-bar{display:flex;justify-content:space-between;gap:6px;align-items:center;padding:8px 11px;background:#fdf2d7;font-size:12px;font-weight:700;border-bottom:1px solid #d4bf91}.combo-bar strong{color:#a45b24}.combo-bar .gain{color:#526e40}
+.phase-bar{min-height:27px;padding:6px 3px;font:800 10px ui-monospace,monospace;letter-spacing:1.4px;background:#e5e7cc;color:#6d825d}.game-stage{position:relative;width:100%;isolation:isolate;overflow:hidden;background:#dfe9d6}
+#gameCanvas{display:block;width:100%;height:auto;aspect-ratio:4/5;image-rendering:pixelated;touch-action:none;user-select:none}
+.best-record{margin:0;padding:10px 5px;font-size:11px;font-weight:700;line-height:1.6;background:#f7ebc9;border-top:2px solid #ad8e5f;font-variant-numeric:tabular-nums}.record-note{font-size:11px;line-height:1.6;margin:8px 0;color:#8a5c40}
+.title-screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:18px 12px 20px;pointer-events:none}.title-sign{width:94%;padding:12px 4px 11px;background:#fff1c9;border:4px solid #805337;box-shadow:inset 0 0 0 3px #dca968,0 5px 0 #503a2a;transform:rotate(-2deg)}
+.title-sign h1{font:1000 clamp(29px,7.7vw,44px)/1 ui-monospace,monospace;letter-spacing:-2.2px;margin:0;text-shadow:2px 2px #e8c487}.title-sign h1 span{color:#ce5e47;white-space:nowrap}.title-sign p{font-size:clamp(10px,2.7vw,13px);font-weight:800;margin:10px 0 0;letter-spacing:1px}
+.title-actions{width:82%;margin-top:auto;pointer-events:auto}.catch-copy{display:inline-block;margin:0 0 10px;padding:4px 10px;color:#fff8dc;background:#3e6949;font-size:clamp(11px,3vw,14px);font-weight:800;box-shadow:2px 2px #264832}
+.start-button{width:100%;min-height:58px;border:3px solid #805337;border-radius:3px;color:#4d3323;background:repeating-linear-gradient(0deg,#f6ce84 0 6px,#f4c77b 7px 8px);box-shadow:inset 0 0 0 3px #ffe2a2,0 5px 0 #67462f;font-weight:900;font-size:clamp(21px,5.5vw,28px);letter-spacing:3px}.start-button:hover{filter:brightness(1.08)}.start-button:active{transform:translateY(3px);box-shadow:inset 0 0 0 3px #ffe2a2,0 2px 0 #67462f}
+.countdown-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#f7f4da38;pointer-events:none}.countdown-overlay span{font:1000 clamp(78px,24vw,130px) ui-monospace,monospace;color:#fff1b4;text-shadow:4px 0 #63452c,-4px 0 #63452c,0 4px #63452c,0 -4px #63452c,6px 8px #63452c77}
+.result-overlay{position:absolute;inset:0;display:flex;padding:14px;overflow:auto;background:#243b2999}.result-card{width:100%;margin:auto;padding:20px 15px 17px;border:4px solid #775236;background:repeating-linear-gradient(0deg,#fff0ce 0 10px,#fbedcc 11px 12px);box-shadow:inset 0 0 0 3px #dec08d,0 7px 0 #42352466;position:relative}
+.result-eyebrow{margin:0;color:#7b8455;font:800 10px ui-monospace,monospace;letter-spacing:2px}.result-card h2{margin:7px 0 6px;font:1000 28px ui-monospace,monospace;letter-spacing:-1px}.result-rank{margin:7px 0 14px;font-size:clamp(14px,3.8vw,19px);font-weight:900;color:#86612d;line-height:1.5}.result-stats{margin:0 0 12px;display:grid;grid-template-columns:1.25fr 1fr;gap:8px}.result-stats div{padding:11px 3px;background:#fff9e7;border:1px solid #c9ad79}.result-stats dt{font-size:10px;color:#856b49;font-weight:700}.result-stats dd{margin:5px 0 0;font:900 clamp(26px,7vw,38px)/1.15 ui-monospace,monospace}.result-stats .size-stat dd{font-size:clamp(22px,6vw,30px);color:#526e40}
+.result-card .best-record{background:#efe0b8;border:1px dashed #b19360;font-size:11px;padding:8px 3px}.new-best{margin:10px 0;color:#a6482e;font:900 12px/1.5 ui-monospace,system-ui;animation:record-glow 1.5s ease-in-out infinite}
+.result-action{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;min-height:46px;margin:10px 0 0;padding:10px 7px;border:2px solid #765333;border-radius:3px;text-decoration:none;font-size:13px;font-weight:800;line-height:1.4}.retry-action{color:#3e3121;background:#edc579;box-shadow:inset 0 0 0 2px #ffe3ab,0 3px 0 #765333}.share-action{background:#354b40;color:#fff8e5;border-color:#2c4135}.result-action:hover{filter:brightness(1.1)}.share-note{font-size:10px;color:#897753;margin:11px 0 0;line-height:1.5}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #318a94;outline-offset:4px}.field-guide{text-align:left;min-width:0}.guide-heading{margin:0 0 12px;font:800 11px ui-monospace,monospace;letter-spacing:2px;color:#6b8062}.field-guide h2{font-size:23px;letter-spacing:-.7px;line-height:1.5;margin:0 0 12px}.guide-intro{font-size:13px;line-height:1.9;color:#7c715e;margin:0 0 20px}.guide-section{padding:17px 0;border-top:1px solid #d7d2bc}.guide-section h3{margin:0 0 10px;font-size:13px}.guide-section p{margin:7px 0;font-size:12px;line-height:1.9;color:#6f6756}.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin:8px 0}.key{display:inline-block;min-width:28px;padding:5px 6px;border:1px solid #bcae8b;box-shadow:0 2px #c7b995;background:#fffaf0;text-align:center;font:800 13px ui-monospace,monospace;border-radius:3px}.sprite-sample{width:40px;height:40px;image-rendering:pixelated;flex:none}.item-tip{display:flex;gap:12px;align-items:center;margin:10px 0}.item-tip strong{font-size:12px}.item-tip p{margin:2px 0;font-size:11px;line-height:1.6}.rank-note{padding:10px 12px;background:#e7ead6;border-left:3px solid #8da078;font-size:12px;line-height:1.9}
+details{border-top:1px solid #d7d2bc;padding:14px 0;font-size:12px;line-height:1.9}summary{font-weight:800;cursor:pointer;min-height:30px}details p{font-size:11px;color:#74694f;line-height:2}.page-footer{max-width:800px;margin:24px auto 0;color:#91957c;font:10px ui-monospace,monospace;letter-spacing:1.4px;text-align:left}
+.game-shell[data-rush="true"] .time-card{background:#ffe2ba;border-color:#b14d36}.game-shell[data-rush="true"] .time-card .hud-number{color:#bd3826}.game-shell[data-rush="true"] .phase-bar{background:#aa4936;color:#fff5d6;letter-spacing:.5px}.game-shell[data-rush="true"] .time-card{animation:urgent .7s steps(2,end) infinite}
+@keyframes urgent{50%{box-shadow:inset 0 0 0 2px #fff3d5,0 0 0 2px #d16947}}@keyframes record-glow{50%{color:#cd7434}}
+
+
+@media(max-width:740px){body{padding:18px 12px 24px}.page-header{max-width:460px;margin-bottom:14px}.edition{font-size:8px;letter-spacing:1px}.layout{max-width:460px;grid-template-columns:minmax(0,1fr);gap:28px}.field-guide{padding:0 4px}.field-guide h2{font-size:20px}.guide-intro{margin-bottom:14px}.guide-section{padding:14px 0}.page-footer{max-width:460px}.best-record{font-size:10px}.result-card{padding:17px 12px 15px}}
+@media(max-width:350px){body{padding:12px 8px}.hud{gap:4px;padding:7px 5px}.hud-number{font-size:23px}.hud-label{font-size:9px;letter-spacing:0}.combo-bar{padding:7px 6px;font-size:10px}.result-overlay{padding:9px}.result-card{padding:14px 10px}.result-card h2{font-size:23px}.result-rank{margin-bottom:9px;font-size:13px}.result-stats{margin-bottom:8px}.result-stats div{padding:8px 2px}.result-action{min-height:44px;margin-top:8px;font-size:12px}.share-note{margin-top:7px}.title-screen{padding:15px 9px 18px}.start-button{min-height:52px}.title-sign{padding:10px 3px}.title-sign h1{font-size:29px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important}}
+
+
+/* 高さにも合わせるゲーム中心レイアウト。HUDを全モードで確保し、開始時の段差をなくす。 */
+html{height:100%;overflow:hidden;overscroll-behavior:none}
+body{height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none;overflow-anchor:none;display:flex;flex-direction:column;padding:12px 12px 16px}
+.page-header{flex:none;width:100%;max-width:460px;margin:0 auto 10px;min-height:22px}
+.layout{flex:1;min-height:0;width:100%;max-width:none;display:flex;justify-content:center;align-items:center;gap:0;margin:0}
+.game-shell{flex:none;width:var(--game-width, min(100%,400px));max-width:100%;overflow-anchor:none}
+.page-footer{flex:none;width:100%;max-width:460px;margin:10px auto 0;text-align:center;font-size:9px;line-height:12px;letter-spacing:1px}
+.hud-number{font-size:clamp(22px,5vw,30px)}
+.title-sign p{font-size:clamp(11px,2.7vw,13px)}
+.title-actions{display:flex;flex-direction:column;gap:9px;width:82%}
+.title-actions .start-button{min-height:48px;font-size:clamp(20px,5.5vw,26px)}
+.how-button{min-height:44px;border:2px solid #805337;border-radius:3px;box-shadow:inset 0 0 0 2px #fff5d8,0 3px 0 #67462f;background:#f8e7c1;color:#59412c;font-weight:800;font-size:15px;letter-spacing:2px}
+.game-stage{flex:none}#gameCanvas:focus{outline:none}
+.result-overlay{position:absolute;inset:0;z-index:5;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:12px}
+.result-card{flex:none;max-width:100%;padding:16px 13px}
+.result-card h2{font-size:25px;margin:5px 0}
+.result-rank{font-size:clamp(14px,3.8vw,18px);margin:5px 0 11px}
+.result-stats{margin-bottom:10px}.result-stats div{padding:9px 3px}.result-stats dd{font-size:clamp(26px,7vw,34px)}
+.result-action{margin-top:8px;min-height:44px}.result-card .share-note{display:none}
+.result-details{margin-top:10px;padding:8px 0 0;text-align:left}.result-details summary{min-height:24px;font-size:11px;line-height:1.7}
+.result-details p{font-size:11px;line-height:1.8;margin:6px 0}.rank-list{padding:0;margin:8px 0;list-style:none;font-size:11px;line-height:1.8}.rank-list li{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.rank-list strong{font-weight:700}
+.help-overlay{background:#294733b8}.help-card{padding:18px 14px}.help-card h2{font:900 25px/1.3 system-ui;margin:5px 0 14px}.help-steps{display:grid;gap:8px;margin:0 0 12px;text-align:left}.help-step{display:flex;align-items:center;gap:10px;padding:7px 9px;background:#fff8e4;border:1px solid #dbc49a;font-size:clamp(12px,3.5vw,15px);font-weight:800;line-height:1.6}.help-step .sprite-sample{width:36px;height:36px;flex:none}.help-controls{padding:9px 3px;border-top:1px dashed #bea579;font-size:12px;line-height:1.9;font-weight:700}.help-controls p{margin:0}.help-back{margin-top:10px}
+.record-note{flex:none;max-width:460px;font-size:10px;line-height:1.4;margin:6px auto 0}
+@media(max-width:740px){body{padding:10px 10px 12px}.page-header{margin-bottom:8px}.layout{max-width:none;gap:0}.page-footer{margin-top:8px;font-size:8px}.best-record{font-size:10px}}
+@media(max-width:350px){body{padding:8px}.page-header{min-height:20px;margin-bottom:6px}.result-overlay{padding:9px}.result-card{padding:13px 10px}.help-card{padding:14px 10px}.help-card h2{font-size:23px;margin-bottom:10px}.help-step{gap:8px;padding:5px 7px}.help-controls{font-size:11px}}
+@media(max-height:650px){body{padding:8px}.page-header{margin-bottom:6px;min-height:18px}.brand{font-size:14px}.edition{font-size:8px}.page-footer{margin-top:6px;font-size:8px;line-height:10px}.hud{padding:6px 6px 7px;gap:5px}.hud-card{padding:5px 2px 3px}.hud-label{font-size:9px}.hud-number{font-size:22px}.combo-bar{padding:6px 8px;font-size:11px}.phase-bar{min-height:23px;padding:5px 2px;font-size:9px}.best-record{padding:7px 3px;font-size:10px}.title-screen{padding:10px 8px 14px}.title-sign{padding:8px 3px}.title-sign h1{font-size:28px}.title-sign p{font-size:10px;margin-top:7px}.title-actions{gap:7px}.title-actions .start-button{min-height:44px;font-size:20px}.how-button{min-height:44px;font-size:13px}.result-card{padding:10px}.result-card h2{font-size:23px}.result-eyebrow{font-size:9px}.result-rank{margin:4px 0 8px}.result-stats div{padding:6px 2px}.result-stats dd{font-size:28px}.result-card .best-record{padding:6px 3px}.new-best{margin:6px 0;font-size:10px}.result-details{margin-top:7px;padding-top:6px}.help-card h2{margin-bottom:8px;font-size:22px}.help-steps{gap:6px;margin-bottom:8px}.help-step{padding:5px 7px;font-size:12px}.help-step .sprite-sample{width:28px;height:28px}.help-controls{padding:6px 2px;font-size:11px}}
+
+    </style>
+</head>
+<body>
+<header class="page-header"><div class="brand">Hungry Bear <span>30s</span></div><div class="edition">FOREST ARCADE / 001</div></header>
+<main class="layout">
+ <section id="gameShell" class="game-shell" data-mode="title" data-rush="false" aria-label="Hungry Bear 30s ゲーム">
+  <div id="info" class="hud" aria-label="ゲーム情報">
+   <div class="hud-card wood time-card"><span class="hud-label">TIME</span><strong class="hud-number"><span id="time">30</span><span class="unit">s</span></strong></div>
+   <div class="hud-card wood"><span class="hud-label">SCORE</span><strong id="score" class="hud-number">0</strong></div>
+   <div class="hud-card wood"><span class="hud-label">BEAR SIZE</span><strong class="hud-number"><span id="size">100</span><span class="unit">%</span></strong></div>
+  </div>
+  <div id="comboInfo" class="combo-bar"><span>COMBO <strong>×<span id="combo">0</span></strong></span><span class="gain">次の鮭 +<span id="nextGrowth">16</span>%</span></div>
+  <div id="phaseLabel" class="phase-bar">CATCH SALMON · GROW BIG!</div>
+  <div class="game-stage">
+   <canvas id="gameCanvas" width="400" height="500" tabindex="0" aria-label="クマの顔で鮭をキャッチ。左右キー・マウス・タッチで操作"></canvas>
+   <section id="titleScreen" class="title-screen" aria-label="タイトル画面">
+    <div class="title-sign"><h1>Hungry Bear<br><span>30s</span></h1><p>顔で鮭をキャッチ！</p></div>
+    <div class="title-actions"><button id="startButton" class="start-button" type="button">スタート <span aria-hidden="true">▶</span></button><button id="howButton" class="how-button" type="button">あそびかた</button></div>
+   </section>
+   <div id="countdownOverlay" class="countdown-overlay" role="status" aria-live="polite" aria-atomic="true" hidden><span id="countdownText"></span></div>
+  </div>
+  <p id="bestRecord" class="best-record">自己ベスト：サイズ 0% ｜ スコア 0</p>
+  <section id="howOverlay" class="result-overlay help-overlay" role="dialog" aria-modal="true" aria-labelledby="howTitle" hidden>
+   <div class="result-card help-card"><p class="result-eyebrow">RIVERBANK GUIDE</p><h2 id="howTitle" tabindex="-1">あそびかた</h2>
+    <div class="help-steps">
+     <div class="help-step"><canvas class="sprite-sample" data-sprite="salmon" width="32" height="32" aria-hidden="true"></canvas><span>鮭を顔でキャッチ！</span></div>
+     <div class="help-step"><canvas class="sprite-sample" data-sprite="bear" width="32" height="32" aria-hidden="true"></canvas><span>続けて食べると、<br>もっと大きく！</span></div>
+     <div class="help-step"><canvas class="sprite-sample" data-sprite="mushroom" width="32" height="32" aria-hidden="true"></canvas><span>毒キノコに注意！</span></div>
+     <div class="help-step"><canvas class="sprite-sample" data-sprite="bear" width="32" height="32" aria-hidden="true"></canvas><span>左右に動いて、<br>時間いっぱい育てよう！</span></div>
+    </div>
+    <div class="help-controls"><p>PC：左右キー・マウス</p><p>スマホ：指でスライド</p></div>
+    <button id="backTitleButton" class="result-action retry-action help-back" type="button">タイトルにもどる</button>
+   </div>
+  </section>
+  <section id="resultOverlay" class="result-overlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
+   <div class="result-card">
+    <p class="result-eyebrow">RIVERBANK REPORT</p><h2 id="resultTitle" tabindex="-1">おなかいっぱい！</h2>
+    <p id="resultRank" class="result-rank"></p>
+    <dl class="result-stats"><div><dt>FINAL SCORE · 最終スコア</dt><dd id="resultScore">0</dd></div><div class="size-stat"><dt>BEAR SIZE · 最終サイズ</dt><dd id="resultSize">100%</dd></div></dl>
+    <p id="resultBestRecord" class="best-record"></p><p id="newBestRecord" class="new-best" hidden></p>
+    <button id="retryButton" class="result-action retry-action" type="button">RETRY · もう一度遊ぶ</button>
+    <a id="shareButton" class="result-action share-action" target="_blank" rel="noopener noreferrer">X（Twitter）で結果をシェア ↗</a>
+    <details id="resultDetails" class="result-details"><summary>称号と自己ベストについて</summary><ul class="rank-list"><li><strong>LV1 チビクマ級</strong><span>80%未満</span></li><li><strong>LV2 コグマ級</strong><span>80%以上</span></li><li><strong>LV3 ふつうクマ級</strong><span>100%以上</span></li><li><strong>LV4 すくすくクマ級</strong><span>125%以上</span></li><li><strong>LV5 たくましクマ級</strong><span>150%以上</span></li><li><strong>LV6 デカクマ級</strong><span>175%以上</span></li><li><strong>LV7 ジャイアントクマ級</strong><span>200%以上</span></li><li><strong>LV8 メガクマ級</strong><span>350%以上</span></li><li><strong>LV9 ギガクマ級</strong><span>425%以上</span></li><li><strong>LV10 伝説のクマ級</strong><span>500%以上</span></li></ul><p>最高サイズと最高スコアは、このブラウザにそれぞれ保存されます。端末間の同期やオンラインランキングはありません。</p></details>
+   </div>
+  </section>
+ </section>
+</main>
+<p id="recordNote" class="record-note" hidden></p>
+<footer class="page-footer">HUNGRY BEAR 30s · A SMALL GAME, A BIG APPETITE.</footer>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        
+const palette={X:'#38251d',B:'#855438',L:'#b47b50',E:'#d99b78',C:'#f5d5a0',N:'#161820',W:'#fff',S:'#688d91',F:'#f58a76',R:'#c95750',P:'#914ca3'};
+const sprites={
+bear:['..XXX......XXX..','.XBBBX....XBBBX.','.XBEBXXXXBBEBBX.','..XBBBBBBBBBBX..','..XBLBBBBBBLBX..','..XBNBBBBBNBBX..','..XBBCCCCCCBBX..','...XCCCNCCCX....','...XCCCXCCCX....','..XBBBLLBBBBX...','.XBBBCCCCBBBBX..','XBBBCCCCCCBBBBX.','XBBXCCCCCCXBBBX.','.XXBCCCCCCBXXX..','..XBBBXXBBBX....','..XXXX..XXXX....'],
+salmon:['................','.........SSS....','.......SSFFS....','.SS...SSSSSSSS..','.SFS.SSWWWWWSSS.','..SFSSFFFFFFFNS.','...SFFFFFFFFFFSS','..SFSSRFRFRFRSS.','.SFS.SSFFFFFSS..','.SS...SSSSSSS...','........SFS.....','.........SS.....','................','................','................','................'],
+mushroom:['................','.....PPPPP......','...PPPPWPPPP....','..PPWWPWPPPPP...','.PPPPPPPPWWPPP..','.PPPPPPPPWWPPP..','.PPWPPPPPPPPPP..','..XXXXXXXXXXX...','......CCC.......','......CWC.......','.....CCWCC......','.....CCCCC......','......XXX.......','................','................','................']};
+// 文字配列の1文字を1ドットとしてCanvasで描画する。
+function drawPixelArt(name,x,y,w,h){
+ sprites[name].forEach((row,py)=>[...row].forEach((c,px)=>{
+  if(!palette[c])return;
+  ctx.fillStyle=palette[c];
+  const left=Math.round(x+px*w/16),top=Math.round(y+py*h/16);
+  ctx.fillRect(left,top,Math.round(x+(px+1)*w/16)-left,Math.round(y+(py+1)*h/16)-top);
+ }));
+}
+// 最終サイズで10段階判定。上位3ランクは350%、425%、500%以上。
+const BEAR_RANKS = [
+ {min:500,name:'伝説のクマ級'},
+ {min:425,name:'ギガクマ級'},
+ {min:350,name:'メガクマ級'},
+ {min:200,name:'ジャイアントクマ級'},
+ {min:175,name:'デカクマ級'},
+ {min:150,name:'たくましクマ級'},
+ {min:125,name:'すくすくクマ級'},
+ {min:100,name:'ふつうクマ級'},
+ {min:80,name:'コグマ級'},
+ {min:0,name:'チビクマ級'}
+];
+function getBearRank(sizePercent){
+ return BEAR_RANKS.find(rank=>sizePercent>=rank.min)?.name ?? 'チビクマ級';
+}
+// ラスト5秒だけ有効。生成済みのキノコにも即座に適用する。
+let isLastSpurt = false;
+function getFallSpeed(item) {
+    if (!isLastSpurt) return item.speed;
+    return item.speed * (item.type === 'mushroom' ? 4 : 2);
+}
+let finalRank='';
+let combo = 0;
+// 直前までの連続キャッチ数から、次の鮭の成長量（サイズ表示のポイント）を決める。
+function getSalmonGrowthPercent(currentCombo) {
+    return Math.min(30, 16 + currentCombo * 2);
+}
+let comboFeedback = {count:0, startedAt:0, until:0};
+function updateComboUI() {
+    const now = performance.now();
+    comboFeedback = {count:combo, startedAt:now, until:combo >= 2 ? now + 850 : 0};
+    document.getElementById('combo').innerText = combo;
+    document.getElementById('nextGrowth').innerText = getSalmonGrowthPercent(combo);
+}
+
+        // ゲーム状態の管理
+        let score = 0;
+        let timeLeft = 30;
+        let gameOver = false;
+        let running = false;
+        let showingHelp = false;
+        let countingDown = false;
+        let countdownStartedAt = 0;
+        let goVisibleUntil = 0;
+        let startedAt = 0;
+        let previousFrame = 0;
+        let spawnElapsed = 0;
+        const startButton = document.getElementById("startButton");
+
+        const BEST_RECORD_KEY = 'hungryBear30s.bestRecord.v1';
+        let storageAvailable = true;
+        function readBestRecord() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(BEST_RECORD_KEY) || 'null');
+                const valid = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
+                return { size: valid(saved?.size) ? saved.size : 0,
+                    score: valid(saved?.score) ? saved.score : 0 };
+            } catch (error) {
+                if (!(error instanceof SyntaxError)) storageAvailable = false;
+                return {size:0, score:0};
+            }
+        }
+        let bestRecord = readBestRecord();
+        function displayBestRecord() {
+            const text = '自己ベスト：サイズ ' + bestRecord.size + '% ｜ スコア ' + bestRecord.score;
+            document.getElementById('bestRecord').textContent = text;
+            document.getElementById('resultBestRecord').textContent = text;
+            document.getElementById('recordNote').hidden = storageAvailable;
+            document.getElementById('recordNote').textContent = 'このブラウザでは記録を保存できません。今回開いている間のベストを表示します。';
+        }
+        function saveBestRecord(finalSize, finalScore) {
+            const saved = readBestRecord();
+            bestRecord.size = Math.max(bestRecord.size, saved.size);
+            bestRecord.score = Math.max(bestRecord.score, saved.score);
+            const sizeImproved = finalSize > bestRecord.size;
+            const scoreImproved = finalScore > bestRecord.score;
+            bestRecord.size = Math.max(bestRecord.size, finalSize);
+            bestRecord.score = Math.max(bestRecord.score, finalScore);
+            if (sizeImproved || scoreImproved) {
+                try { localStorage.setItem(BEST_RECORD_KEY, JSON.stringify(bestRecord)); }
+                catch { storageAvailable = false; }
+            }
+            const notice = document.getElementById('newBestRecord');
+            notice.hidden = !sizeImproved && !scoreImproved;
+            notice.textContent = sizeImproved && scoreImproved ? 'NEW RECORD! サイズ・スコア更新！'
+                : sizeImproved ? 'NEW RECORD! 最高サイズ更新！' : 'NEW RECORD! ハイスコア更新！';
+            displayBestRecord();
+        }
+
+        // プレイヤー（クマ）オブジェクト
+        const bear = {
+            x: 175,
+            y: 420,
+            baseWidth: 50,
+            baseHeight: 50,
+            width: 50,
+            height: 50,
+            speed: 8
+        };
+
+        // 落ちてくるアイテムの配列
+        let items = [];
+
+        // CSSで縮小されたCanvasでも論理座標400×500に換算する。
+        let keys = {};
+        let activePointer = null;
+        window.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                if (running) e.preventDefault();
+                keys[e.key] = true;
+            }
+        });
+        window.addEventListener('keyup', e => { keys[e.key] = false; });
+        window.addEventListener('blur', () => { keys = {}; activePointer = null; });
+        function getBearMovementBounds() {
+            const face = getBearFaceBounds();
+            const leftInset = face.x - bear.x;
+            const rightInset = bear.x + bear.width - face.x - face.width;
+            const grownPart = Math.max(0, 1 - bear.baseWidth / bear.width);
+            return { min: -leftInset * grownPart,
+                max: canvas.width - bear.width + rightInset * grownPart };
+        }
+        function clampBearX(x = bear.x) {
+            const bounds = getBearMovementBounds();
+            return Math.max(bounds.min, Math.min(bounds.max, x));
+        }
+
+        function moveBearToPointer(e) {
+            if (!running) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * canvas.width / rect.width;
+            bear.x = clampBearX(x - bear.width / 2);
+        }
+        canvas.addEventListener('pointerdown', e => {
+            if (!running || activePointer !== null) return;
+            activePointer = e.pointerId;
+            canvas.setPointerCapture(e.pointerId);
+            moveBearToPointer(e);
+        });
+        canvas.addEventListener('pointermove', e => {
+            if (e.pointerType === 'mouse' || e.pointerId === activePointer) moveBearToPointer(e);
+        });
+        function releasePointer(e) {
+            if (e.pointerId === activePointer) activePointer = null;
+        }
+        canvas.addEventListener('pointerup', releasePointer);
+        canvas.addEventListener('pointercancel', releasePointer);
+        canvas.addEventListener('lostpointercapture', releasePointer);
+
+        // 耳・胴体を除く、ドット絵の顔（列2〜12、行3〜8）。
+        function getBearFaceBounds() {
+            return { x: bear.x + bear.width * 2/16, y: bear.y + bear.height * 3/16,
+                width: bear.width * 11/16, height: bear.height * 6/16 };
+        }
+        // アイテムの透明な余白は当たり判定に含めない。
+        function getItemBounds(item) {
+            const rows = sprites[item.type];
+            let left=16, right=0, top=16, bottom=0;
+            rows.forEach((row,y) => [...row].forEach((c,x) => {
+                if (!palette[c]) return;
+                left=Math.min(left,x); right=Math.max(right,x+1);
+                top=Math.min(top,y); bottom=Math.max(bottom,y+1);
+            }));
+            return {x:item.x+left*item.size/16,y:item.y+top*item.size/16,
+                width:(right-left)*item.size/16,height:(bottom-top)*item.size/16};
+        }
+
+        // 600%の中央の顔（x=87.5〜293.75）を避ける左右40pxの帯。
+        // 乱数は従来と同じ1回分を左右選択と帯内の位置に使う。
+        function getRushMushroomX(random, size) {
+            const maxBearWidth = 300;
+            const centerX = (canvas.width - maxBearWidth) / 2;
+            const faceLeft = centerX + maxBearWidth * 2 / 16;
+            const faceRight = centerX + maxBearWidth * 13 / 16;
+            const maxX = canvas.width - size;
+            const band = Math.max(0, Math.min(canvas.width * 0.10,
+                faceLeft - size - 8, maxX - faceRight - 8));
+            return random < 0.5 ? random * 2 * band
+                : maxX - band + (random - 0.5) * 2 * band;
+        }
+
+        // アイテム（鮭 or キノコ）を生成
+        function spawnItem() {
+            if (!running) return;
+            const mushroomChance = isLastSpurt ? 0.70 : 0.36;
+            const isSalmon = Math.random() >= mushroomChance;
+            const positionRandom = Math.random();
+            items.push({
+                x: isLastSpurt && !isSalmon ? getRushMushroomX(positionRandom, 30)
+                    : positionRandom * (canvas.width - 30),
+                y: 0,
+                size: 30,
+                type: isSalmon ? "salmon" : "mushroom",
+                speed: 4 + Math.random() * 3 // 通常4〜7、ラスト5秒は鮭8〜14・キノコ16〜28
+            });
+        }
+
+        // メインのアップデート処理（ゲームループ）
+        function update(frameScale = 1) {
+            if (!running) return;
+
+            // 小さいクマの範囲は従来どおり。成長後も顔が端の鮭へ届くようにする。
+            const movement = getBearMovementBounds();
+            if (keys["ArrowLeft"] && bear.x > movement.min) bear.x -= bear.speed * frameScale;
+            if (keys["ArrowRight"] && bear.x < movement.max) bear.x += bear.speed * frameScale;
+            bear.x = clampBearX();
+
+            // アイテムの移動と衝突判定
+            for (let i = items.length - 1; i >= 0; i--) {
+                const item = items[i];
+                const previousBounds = getItemBounds(item);
+                item.y += getFallSpeed(item) * frameScale;
+                const bounds = getItemBounds(item);
+                const face = getBearFaceBounds();
+                // 前フレームからの移動区間も判定し、高速落下で顔をすり抜けないようにする。
+                if (bounds.x < face.x + face.width &&
+                    bounds.x + bounds.width > face.x &&
+                    previousBounds.y < face.y + face.height &&
+                    bounds.y + bounds.height > face.y) {
+                    const centerX = bear.x + bear.width / 2;
+                    // 衝突時の効果
+                    if (items[i].type === "salmon") {
+                        score += 100;
+                        const growthPercent = getSalmonGrowthPercent(combo);
+                        combo++;
+                        bear.width = Math.min(300, bear.width + bear.baseWidth * growthPercent / 100); // 最大600%
+                        bear.height = bear.width;
+                        bear.y = 470 - bear.height; // 足元を固定するための調整
+                    } else {
+                        score = Math.max(0, score - 50);
+                        combo = 0;
+                        bear.width = Math.max(30, bear.width - bear.baseWidth * 40 / 100); // 固定で40ポイント減少、最小60%
+                        bear.height = bear.width;
+                        bear.y = 470 - bear.height;
+                    }
+                    
+                    bear.x = clampBearX(centerX - bear.width / 2);
+
+                    updateComboUI();
+
+                    // UI更新
+                    document.getElementById("score").innerText = score;
+                    document.getElementById("size").innerText = Math.round((bear.width / bear.baseWidth) * 100);
+                    
+                    items.splice(i, 1);
+                    continue;
+                }
+
+                // 画面外に落ちたら削除
+                if (items[i].y > canvas.height) {
+                    items.splice(i, 1);
+                }
+            }
+        }
+
+        // ── 表示専用：ゲームの物理座標400×500・判定・更新処理から独立 ──
+        // 森の静止部分は初回に2枚だけ生成し、毎フレームの再描画を避ける。
+        const forestLayers = {};
+        function fillPixel(g, color, x, y, w, h) {
+            g.fillStyle = color;
+            g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+        }
+        function drawCloud(g,x,y,scale,color) {
+            [[2,2,12,3],[0,4,18,3],[5,0,7,3],[14,3,5,3]].forEach(r =>
+                fillPixel(g,color,x+r[0]*scale,y+r[1]*scale,r[2]*scale,r[3]*scale));
+        }
+        function drawTree(g,x,y,scale,colors) {
+            fillPixel(g,colors[0],x+24*scale,y+32*scale,12*scale,69*scale);
+            fillPixel(g,colors[1],x+28*scale,y+39*scale,4*scale,62*scale);
+            fillPixel(g,colors[0],x+10*scale,y+47*scale,20*scale,6*scale);
+            fillPixel(g,colors[0],x+35*scale,y+32*scale,13*scale,7*scale);
+            const shape=[
+                [14,0,31,8],[5,8,49,9],[0,17,60,20],[5,37,50,10],[15,47,30,6]
+            ];
+            shape.forEach(r=>fillPixel(g,colors[2],x+r[0]*scale,y+r[1]*scale,r[2]*scale,r[3]*scale));
+            [[12,8,18,11],[5,20,17,12],[26,2,13,9],[29,18,19,10],[19,33,14,9]].forEach(r=>
+                fillPixel(g,colors[3],x+r[0]*scale,y+r[1]*scale,r[2]*scale,r[3]*scale));
+            [[16,10,6,6],[9,23,6,5],[32,5,5,5],[35,22,6,4]].forEach(r=>
+                fillPixel(g,colors[4],x+r[0]*scale,y+r[1]*scale,r[2]*scale,r[3]*scale));
+        }
+        function drawFlower(g,x,y,petal,leaf) {
+            fillPixel(g,leaf,x+2,y+4,2,7);
+            fillPixel(g,leaf,x-1,y+7,3,2);
+            [[0,0],[4,0],[-2,2],[6,2],[0,4],[4,4]].forEach(([a,b])=>fillPixel(g,petal,x+a,y+b,2,2));
+            fillPixel(g,'#e6bd64',x+2,y+2,2,3);
+        }
+function makeForestLayer(vivid) {
+ const variant="A";
+ const layer=document.createElement('canvas');layer.width=400;layer.height=500;
+ const g=layer.getContext('2d');g.imageSmoothingEnabled=false;
+ const c=vivid?{
+ sky:variant==='A'?'#92d5ed':'#a0dce9',cloud:'#fff5d8',cloudShade:'#d9e9da',mount:'#a8c7b3',hill:'#90b594',far:'#7ca58b',
+ leaf:['#396f4b','#4d8750','#71a55c','#98bd73'],trunk:['#72583c','#967449','#bd965d'],
+ grass:'#8fac62',light:'#bed282',grassShade:'#759754',water:'#66b7cf',deep:'#499bb9',ripple:'#a6dce1',foam:'#e1f0dc',stone:'#8bafa5',stoneLight:'#bed1b2',soil:'#7c8d60',flower:'#f4dca1'
+ }:{sky:'#e6eee7',cloud:'#f6f6e9',cloudShade:'#e4ebdd',mount:'#d7e1d6',hill:'#d1decc',far:'#c7d7c5',
+ leaf:['#b8cdb4','#c1d4bb','#d0dfc7','#deE8d2'],trunk:['#c4bca5','#d3cab0','#e2d6bc'],
+ grass:'#d0dcba',light:'#e0e8ca',grassShade:'#c0cfaa',water:'#bddcde',deep:'#acd0d5',ripple:'#d4e9e4',foam:'#edf3e7',stone:'#bccfc3',stoneLight:'#dbe4ce',soil:'#afc3aa',flower:'#eee9cc'};
+ const p=(color,x,y,w=1,h=1)=>{g.fillStyle=color;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ // Coordinate hash: independent of the game's Math.random sequence.
+ const noise=(x,y,s=0)=>{let n=Math.imul(x+7919+s*101,374761393)^Math.imul(y+104729,668265263);n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967296};
+ const oval=(cx,cy,rx,ry,color)=>{for(let y=-ry;y<=ry;y+=2){const w=Math.floor(rx*Math.sqrt(Math.max(0,1-y*y/(ry*ry)))/2)*2;p(color,cx-w,cy+y,w*2+2,2)}};
+ p(c.sky,0,0,400,500);
+ function cloud(x,y,s){[[0,7,19,5],[5,2,11,11],[12,0,10,12],[20,5,12,7],[28,9,8,3]].forEach(([a,b,w,h])=>p(c.cloud,x+a*s,y+b*s,w*s,h*s));p(c.cloudShade,x+3*s,y+12*s,30*s,s)}
+ cloud(44,67,2);cloud(239,129,1);cloud(154,219,1);
+ // Staggered 2px ridgelines, rather than large rectangular mountains.
+ for(let x=0;x<400;x+=2){const y=266+Math.round((Math.sin(x/54)*13+Math.sin(x/19)*4)/2)*2;p(c.mount,x,y,2,430-y);
+ const y2=301+Math.round((Math.sin(x/37+1)*14+Math.sin(x/13)*3)/2)*2;p(c.hill,x,y2,2,430-y2)}
+ const riverY=vivid?316:414,bankY=vivid?398:460;
+ function foliage(cx,cy,rx,ry,seed){oval(cx,cy,rx,ry,c.leaf[0]);oval(cx-2,cy-3,rx-2,ry-3,c.leaf[1]);
+ for(let y=-ry+2;y<ry-2;y+=2)for(let x=-rx+2;x<rx-2;x+=2){if(x*x/(rx*rx)+y*y/(ry*ry)>.86)continue;
+ const light=(x+y)/Math.max(rx,ry),n=noise(Math.floor((cx+x)/4),Math.floor((cy+y)/4),seed);
+ if(n>.50&&light<.5)p(c.leaf[2],cx+x,cy+y,2+(n>.88?2:0),2);
+ if(n>.85&&light<-.2)p(c.leaf[3],cx+x,cy+y,2,1)}}
+ function broadTree(x,top,height,seed){const width=Math.max(4,Math.round(height/12)),base=top+height;
+ p(c.trunk[0],x-width/2,top+24,width,height-24);p(c.trunk[1],x-width/2+2,top+28,Math.max(1,width-3),height-29);
+ for(let y=top+36;y<base;y+=11){p(c.trunk[0],x-1,y,2,4);p(c.trunk[2],x-width/2+2,y+4,1,5)}
+ for(let i=0;i<4;i++){const side=i%2?1:-1;for(let j=0;j<14;j++)p(c.trunk[0],x+side*j,top+37+i*12-j/2,2,3)}
+ [[-14,33,22,21],[15,26,24,25],[-4,5,24,24],[-25,9,20,18],[23,3,18,19],[0,-13,19,17]].forEach(([dx,dy,rx,ry],i)=>foliage(x+dx,top+dy,rx,ry,seed+i))}
+ function pine(x,top,h,seed){p(c.trunk[0],x-2,top+15,4,h-15);p(c.trunk[1],x,top+20,1,h-20);
+ for(let tier=0;tier<5;tier++){let y0=top+tier*h*.115,hh=h*.40,ww=h*(.10+tier*.025);for(let dy=0;dy<hh;dy+=2){const half=Math.floor((ww*dy/hh+(Math.floor(dy/5)%2)*2)/2)*2;
+ p(c.leaf[0],x-half,y0+dy,half*2+2,2);if(half>2)p(c.leaf[1],x-half+2,y0+dy,half*2-3,2);
+ for(let dx=-half+3;dx<half-2;dx+=4)if(noise(dx+Math.floor(x),Math.floor(y0+dy),seed)>.64)p(c.leaf[2],x+dx,y0+dy,2,1)}}}
+ // Receding forest silhouettes; quiet central space remains open for falling items.
+ for(let i=0;i<36;i++){const x=i*13-22;if(x>109&&x<278)continue;const h=33+noise(i,2)*27,top=riverY-h-5;
+ for(let dy=0;dy<h;dy+=2){const w=variant==='B'?Math.min(10,dy*.34):Math.sqrt(Math.max(0,1-Math.pow((dy-h*.35)/(h*.65),2)))*11;p(c.far,x-w,top+dy,w*2+1,2)}p(c.far,x-1,top+18,2,h-10)}
+ p(c.grass,0,riverY-5,400,bankY-riverY+20);
+ p(c.deep,0,riverY+9,400,bankY-riverY);
+ p(c.water,0,riverY+13,400,bankY-riverY-12);
+ // Thin horizontal water clusters, with many calm gaps instead of a gradient.
+ for(let i=0;i<(vivid?145:72);i++){const x=Math.floor(noise(i,12)*400),y=riverY+15+Math.floor(noise(i,18)*(bankY-riverY-18));const w=3+Math.floor(noise(i,24)*15);p(i%5===0?c.foam:c.ripple,x,y,w,1);if(i%8===0)p(c.deep,x+4,y+3,5,1)}
+ // Far bank grass fringe and small soil/stone clusters.
+ for(let x=0;x<400;x+=2){let y=riverY+Math.floor(noise(Math.floor(x/8),2)*3)*2;p(c.soil,x,y,2,7);p(c.light,x,y-2,2,3);if(x%8===0)p(c.grassShade,x,y-5,1,4)}
+ function rock(x,y,w){for(let dy=0;dy<7;dy++){const inset=dy<2?4:dy>5?2:0;p(c.stone,x+inset,y+dy,w-inset*2,1);if(dy<3)p(c.stoneLight,x+inset+2,y+dy,Math.max(1,w-inset*2-5),1)}p(c.foam,x-4,y+8,w+8,1)}
+ rock(39,riverY+30,20);rock(323,riverY+42,25);if(variant==='B'){rock(73,riverY+57,12);rock(354,riverY+20,13)}
+ // Near bank retains the original bank and feet height.
+ for(let x=0;x<400;x+=2){const y=bankY+Math.round(Math.sin(x/21)*2);p(c.soil,x,y,2,500-y);p(c.light,x,y-2,2,4);p(c.grass,x,y+4,2,500-y-4);if(x%6===0)p(c.grassShade,x,y+1,1,2)}
+ for(let i=0;i<260;i++){const x=Math.floor(noise(i,31)*400),y=bankY+6+Math.floor(noise(i,35)*(490-bankY-6));p(i%3?c.light:c.grassShade,x,y,1,2);if(i%5===0)p(c.light,x+1,y-1,2,1)}
+ if(variant==='A'){broadTree(-7,177,riverY-165,1);broadTree(407,159,riverY-147,8);broadTree(-15,26,183,12);broadTree(413,35,173,20)}
+ else{pine(-3,112,riverY-97,2);pine(402,130,riverY-116,6);pine(22,224,riverY-211,8);pine(378,236,riverY-224,9);foliage(-8,28,42,31,9);foliage(411,51,42,33,18)}
+ // Small flower clusters are confined to the banks.
+ for(const [x,y]of [[18,bankY+22],[48,bankY+33],[351,bankY+20],[376,bankY+30]]){p(c.grassShade,x,y,1,5);p(c.flower,x-2,y-1,2,2);p(c.cloud,x+1,y-2,2,2);p(c.flower,x,y+1,2,1)}
+ if(vivid){
+  // Small log bridge: spans the far bank (y316) and near bank (y398).
+  // The bear stays at its original position; the first log sits below its feet.
+  const wood={edge:'#795335',dark:'#95623d',base:'#bb8652',light:'#d8aa70',grain:'#a77346',end:'#e4bd80'};
+  // Bank anchors and the narrow shadow below the deck.
+  p(c.stone,139,307,13,9);p(c.stoneLight,140,305,11,3);
+  p(c.stone,249,307,13,9);p(c.stoneLight,250,305,11,3);
+  for(let y=308;y<414;y++){const spread=Math.floor((y-304)/16);p(c.deep,145-spread,y,112+spread*2,1)}
+  // Horizontal round logs form the deck; perspective widens toward the near bank.
+  for(let i=0;i<12;i++){
+   const y=303+i*9,spread=Math.floor(i*.8),left=146-spread,right=254+spread;
+   p(wood.edge,left+2,y,right-left-4,9);p(wood.dark,left,y+2,right-left,5);
+   p(wood.base,left+2,y+1,right-left-4,5);p(wood.light,left+4,y+1,right-left-8,1);
+   p(wood.grain,left+4,y+6,right-left-8,1);
+   // Rounded cut ends and rings, without smooth curves.
+   for(const x of [left+1,right-7]){p(wood.end,x+1,y+2,5,4);p(wood.grain,x+2,y+3,3,2);p(wood.light,x+3,y+3,1,1)}
+   for(let j=0;j<6;j++){const x=left+13+j*14+Math.floor(noise(i,j,90)*6);p(j%2?wood.grain:wood.light,x,y+3+(j%2),4+Math.floor(noise(i,j,91)*5),1)}
+   if(i%3===1){const x=185+(i%2)*21;p(wood.dark,x,y+3,6,2);p(wood.light,x+2,y+3,2,1)}
+  }
+  // Low side beams and joint bindings keep the crossing readable as a bridge.
+  for(let y=300;y<414;y++){const spread=Math.floor((y-300)/12);for(const x of [142-spread,254+spread]){p(wood.edge,x,y,6,1);p(wood.base,x+1,y,4,1);p(wood.light,x+1,y,1,1)}}
+  for(const y of [302,347,397]){const spread=Math.floor((y-300)/12);for(const x of [142-spread,254+spread]){p(wood.dark,x-1,y,8,2);p(wood.end,x,y-1,6,1)}}
+ }
+ return layer;
+}
+function drawRiverMotion(vivid,now) {
+ const y=vivid?316:414,offset=Math.floor(now/240)%32;
+ ctx.fillStyle=vivid?'#d1ebe0':'#e4f0e8';
+ for(let i=0;i<14;i++){const x=((i*57+offset)%430)-20;const width=5+(i%3)*3; if(vivid && x+width>128 && x<272)continue;ctx.fillRect(x,y+22+(i%4)*10,width,1)}
+}
+
+        let lastViewMode='';
+        function syncView() {
+            const mode=showingHelp?'help':gameOver?'result':countingDown?'countdown':running?'play':'title';
+            if(lastViewMode!==mode) {
+                document.getElementById('gameShell').dataset.mode=mode;
+                document.getElementById('titleScreen').hidden=mode!=='title';
+                document.getElementById('howOverlay').hidden=mode!=='help';
+                lastViewMode=mode;
+            }
+            document.getElementById('gameShell').dataset.rush=String(isLastSpurt);
+            document.getElementById('phaseLabel').textContent=isLastSpurt?'LAST 5s · 超高速キノコの嵐！':'CATCH SALMON · GROW BIG!';
+            return mode;
+        }
+        function drawComboFeedback(now) {
+            if(!running || now>=comboFeedback.until || comboFeedback.count<2)return;
+            const progress=(now-comboFeedback.startedAt)/850;
+            const x=Math.max(105,Math.min(295,bear.x+bear.width/2));
+            const y=Math.max(75,bear.y-22-Math.round(progress*12));
+            ctx.save();ctx.globalAlpha=Math.min(1,(1-progress)*3);
+            ctx.textAlign='center';ctx.font='900 22px monospace';ctx.lineWidth=4;
+            ctx.strokeStyle='#fff9d9';ctx.fillStyle='#a35c18';
+            const label='COMBO! ×'+comboFeedback.count;
+            ctx.strokeText(label,x,y);ctx.fillText(label,x,y);
+            ctx.restore();
+        }
+        // 元スプライトの外側だけを1ドットぶん縁取り。判定には使用しない。
+        const mushroomOutline = (() => {
+            const rows = sprites.mushroom, cells = [];
+            const opaque = (x,y) => !!palette[rows[y]?.[x]];
+            for(let y=-1;y<=16;y++)for(let x=-1;x<=16;x++) {
+                if(!opaque(x,y) && [[-1,0],[1,0],[0,-1],[0,1]].some(([dx,dy])=>opaque(x+dx,y+dy)))
+                    cells.push([x,y]);
+            }
+            return cells;
+        })();
+        function drawRushMushroomOutline(item) {
+            ctx.fillStyle='#d73535';
+            mushroomOutline.forEach(([px,py])=>{
+                const left=Math.round(item.x+px*item.size/16);
+                const top=Math.round(item.y+py*item.size/16);
+                ctx.fillRect(left,top,Math.round(item.x+(px+1)*item.size/16)-left,
+                    Math.round(item.y+(py+1)*item.size/16)-top);
+            });
+        }
+        function draw() {
+            const mode=syncView(),vivid=mode==='title'||mode==='help',key=vivid?'title':'play';
+            if(!forestLayers[key])forestLayers[key]=makeForestLayer(vivid);
+            ctx.imageSmoothingEnabled=false;
+            ctx.drawImage(forestLayers[key],0,0);
+            const now=performance.now();
+            drawRiverMotion(vivid,now);
+            if(vivid) {
+                drawPixelArt('bear',152,214,96,96);
+                drawPixelArt('salmon',64,205,40,40);
+                drawPixelArt('salmon',290,248,38,38);
+                drawPixelArt('mushroom',55,347,36,36);
+                drawPixelArt('mushroom',299,354,34,34);
+            } else {
+                // 既存の論理座標をそのまま使う。地面の基準は引き続きy=470。
+                drawPixelArt('bear',bear.x,bear.y,bear.width,bear.height);
+                items.forEach(item=>{
+                    if(isLastSpurt && item.type==='mushroom')drawRushMushroomOutline(item);
+                    drawPixelArt(item.type,item.x,item.y,item.size,item.size);
+                });
+                drawComboFeedback(now);
+            }
+            if(isLastSpurt && Math.floor(now/350)%2===0) {
+                ctx.fillStyle='rgba(255,20,30,0.28)';
+                ctx.fillRect(0,0,canvas.width,canvas.height);
+            }
+        }
+        function titleLoop() {
+            if(running || countingDown || gameOver)return;
+            draw();requestAnimationFrame(titleLoop);
+        }
+        function renderGuideSprites() {
+            document.querySelectorAll('[data-sprite]').forEach(sample=>{
+                const g=sample.getContext('2d');g.imageSmoothingEnabled=false;
+                const rows=sprites[sample.dataset.sprite];
+                rows.forEach((row,y)=>[...row].forEach((c,x)=>{
+                    if(palette[c])fillPixel(g,palette[c],x*2,y*2,2,2);
+                }));
+            });
+        }
+
+        // 公開後にゲームのHTTPS URLを設定する。ローカルファイルのパスは共有しない。
+        const PUBLIC_GAME_URL = 'https://sukechan1105.github.io/hungry-bear-30s-public/';
+        const SHARE_RANK_MESSAGES = [
+            '小さなクマから、次こそ大きく育つぞ！',
+            'まだまだ成長中！ もう一度チャレンジ！',
+            '鮭を食べて、ここまで育った！',
+            'コンボをつないで、すくすく成長！',
+            'キノコに負けず、たくましく育った！',
+            '鮭をもりもり食べて、デカクマに成長！',
+            '大きく育ったクマで、キノコの嵐に挑んだ！',
+            'キノコの嵐をくぐり抜け、メガクマに到達！',
+            'ギガクマ到達！ 伝説まであと一歩！',
+            'ラスト5秒のキノコの嵐を越えて、伝説のクマに到達！'
+        ];
+        function getRankLabel(sizePercent) {
+            const index = BEAR_RANKS.findIndex(rank => sizePercent >= rank.min);
+            const level = index < 0 ? 1 : BEAR_RANKS.length - index;
+            const icon = level === 10 ? '👑' : level >= 8 ? '🔥' : '🐻';
+            return { level, text: icon + ' [LV' + level + '] ' + getBearRank(sizePercent) };
+        }
+        function getShareUrl(sizePercent, finalScore = score) {
+            const rank = getRankLabel(sizePercent);
+            const text = [
+                '🐻 Hungry Bear 30s で遊んだよ！',
+                '最終スコア：' + finalScore,
+                '最終サイズ：' + sizePercent + '%',
+                '獲得ランク：' + rank.text,
+                SHARE_RANK_MESSAGES[rank.level - 1],
+                '#HungryBear30s'
+            ].join('\n');
+            let url = 'https://x.com/intent/tweet?text=' + encodeURIComponent(text);
+            if (PUBLIC_GAME_URL.startsWith('https://')) {
+                url += '&url=' + encodeURIComponent(PUBLIC_GAME_URL);
+            }
+            return url;
+        }
+
+        // 経過時間に合わせて移動するため、PCとスマホで速度が変わらない。
+        function finishGame() {
+            timeLeft = 0;
+            countingDown = false;
+            document.getElementById("countdownOverlay").hidden = true;
+            isLastSpurt = false;
+            running = false;
+            gameOver = true;
+            finalRank = getBearRank(Math.round(bear.width / bear.baseWidth * 100));
+            document.getElementById('time').innerText = 0;
+            const finalSize = Math.round(bear.width / bear.baseWidth * 100);
+            saveBestRecord(finalSize, score);
+            document.getElementById('resultScore').textContent = score;
+            document.getElementById('resultSize').textContent = finalSize + '%';
+            document.getElementById('resultRank').textContent = getRankLabel(finalSize).text;
+            document.getElementById('shareButton').href = getShareUrl(finalSize);
+            document.getElementById('resultOverlay').hidden = false;
+            document.getElementById('resultTitle').focus({preventScroll:true});
+            startButton.hidden = true;
+            activePointer = null;
+        }
+        function gameLoop(now) {
+            if (!running) return;
+            if (now >= goVisibleUntil) document.getElementById("countdownOverlay").hidden = true;
+            const elapsed = now - startedAt;
+            const delta = Math.min(now - previousFrame, 100);
+            previousFrame = now;
+            timeLeft = Math.max(0, Math.ceil((30000 - elapsed) / 1000));
+            isLastSpurt = elapsed >= 25000 && elapsed < 30000;
+            document.getElementById('time').innerText = timeLeft;
+            if (elapsed >= 30000) {
+                finishGame();
+                draw();
+                return;
+            }
+            spawnElapsed += delta;
+            while (spawnElapsed >= 420) {
+                spawnItem();
+                spawnElapsed -= 420;
+            }
+            // 小さな時間刻みに分けて、衝突と操作を安定させる。
+            let remaining = delta;
+            while (remaining > 0) {
+                const step = Math.min(remaining, 1000 / 60);
+                update(step / (1000 / 60));
+                remaining -= step;
+            }
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        function countdownLoop(now) {
+            if (!countingDown) return;
+            const elapsed = now - countdownStartedAt;
+            if (elapsed >= 3000) {
+                countingDown = false;
+                running = true;
+                startedAt = previousFrame = now;
+                goVisibleUntil = now + 650;
+                document.getElementById('countdownText').textContent = 'GO!';
+                startButton.innerText = 'プレイ中';
+                draw();
+                requestAnimationFrame(gameLoop);
+                return;
+            }
+            document.getElementById('countdownText').textContent = String(3 - Math.floor(elapsed / 1000));
+            draw();
+            requestAnimationFrame(countdownLoop);
+        }
+        function startGame() {
+            if (running || countingDown || showingHelp) return;
+            document.getElementById('resultOverlay').hidden = true;
+            document.getElementById('shareButton').removeAttribute('href');
+            document.getElementById('retryButton').blur();
+            document.getElementById('resultDetails').open = false;
+            score = 0; timeLeft = 30; gameOver = false; finalRank = '';
+            isLastSpurt = false;
+            combo = 0;
+            updateComboUI();
+            items = []; keys = {}; activePointer = null;
+            Object.assign(bear, {x:175,y:420,width:50,height:50});
+            document.getElementById('score').innerText = 0;
+            document.getElementById('size').innerText = 100;
+            document.getElementById('time').innerText = 30;
+            spawnElapsed = 0;
+            countdownStartedAt = performance.now();
+            countingDown = true;
+            running = false;
+            goVisibleUntil = 0;
+            document.getElementById('countdownOverlay').hidden = false;
+            document.getElementById('countdownText').textContent = '3';
+            startButton.disabled = true;
+            startButton.innerText = '準備中…';
+            startButton.hidden = false;
+            draw();
+            canvas.focus({preventScroll:true});
+            requestAnimationFrame(countdownLoop);
+        }
+        // 表示だけの処理。Canvasの論理座標やタイマーは変更しない。
+        function fitGameToViewport() {
+            const layout = document.querySelector('.layout');
+            const shell = document.getElementById('gameShell');
+            const area = layout.getBoundingClientRect();
+            const fixed = ['info','comboInfo','phaseLabel','bestRecord'].reduce((sum,id) =>
+                sum + document.getElementById(id).getBoundingClientRect().height, 0);
+            const style = getComputedStyle(shell);
+            const border = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+            const innerWidth = Math.max(1, Math.floor(Math.min(450, area.width - border,
+                (area.height - fixed - border - 10) / (canvas.height / canvas.width))));
+            document.documentElement.style.setProperty('--game-width', (innerWidth + border) + 'px');
+        }
+        function showHelpScreen() {
+            if (running || countingDown || gameOver) return;
+            showingHelp = true;
+            draw();
+            document.getElementById('howTitle').focus({preventScroll:true});
+        }
+        function returnToTitle() {
+            showingHelp = false;
+            draw();
+            document.getElementById('howButton').focus({preventScroll:true});
+        }
+        document.getElementById('howButton').addEventListener('click', showHelpScreen);
+        document.getElementById('backTitleButton').addEventListener('click', returnToTitle);
+        window.addEventListener('resize', fitGameToViewport);
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', fitGameToViewport);
+        if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fitGameToViewport).observe(document.querySelector('.layout'));
+        fitGameToViewport();
+        startButton.addEventListener('click', startGame);
+        document.getElementById('retryButton').addEventListener('click', startGame);
+        displayBestRecord();
+        renderGuideSprites();
+        draw();
+        requestAnimationFrame(titleLoop);
+    </script>
+</body>
+</html>
